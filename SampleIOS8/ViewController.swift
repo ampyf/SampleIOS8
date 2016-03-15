@@ -25,24 +25,31 @@ class ViewController: UIViewController {
     }
 
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-        
-        coordinator.animateAlongsideTransition({ context in
-            self.heightConstraint.constant = 0
-            self.widthConstraint.constant = 0
-            self.imageView.alpha = 0
-            }, completion: { [weak self] context in
-                let strongWeak = self
-                strongWeak?.growAnimation()
+        growAnimationWithCoordinator(coordinator)
+    }
+    
+    override func willTransitionToTraitCollection(newCollection: UITraitCollection, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        growAnimationWithCoordinator(coordinator)
+    }
+    
+    func growAnimationWithCoordinator(coordinator: UIViewControllerTransitionCoordinator) {
+        coordinator.animateAlongsideTransition({  context in
+                self.heightConstraint.constant = 0
+                self.widthConstraint.constant = 0
+                self.imageView.alpha = 0
+            }, completion: { context in
+                self.growAnimation()
         })
     }
     
+    
     func growAnimation() {
-       UIView.animateWithDuration(1.5, delay: 0.5, usingSpringWithDamping: 60, initialSpringVelocity: 10, options: UIViewAnimationOptions.CurveEaseOut, animations: { [weak self] () -> Void in
-        self?.heightConstraint.constant = 512
-        self?.widthConstraint.constant = 512
-        self?.imageView.alpha = 1.0
-        self?.view.layoutIfNeeded()
-       }, completion: nil)
+        UIView.animateWithDuration(5, delay: 2, usingSpringWithDamping: 60, initialSpringVelocity: 10, options: UIViewAnimationOptions.CurveEaseOut, animations: { [weak self] () -> Void in
+            self?.heightConstraint.constant = 512
+            self?.widthConstraint.constant = 512
+            self?.imageView.alpha = 1.0
+            self?.view.layoutIfNeeded()
+        }, completion: nil)
     }
     
     
